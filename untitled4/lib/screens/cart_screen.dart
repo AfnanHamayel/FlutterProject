@@ -2,60 +2,85 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled4/model/items_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:untitled4/screens/seccess_order.dart';
-import '../model/cart_model.dart';
-import '../utl/constant_value.dart';
+import 'package:untitled4/utl/constant_value.dart';
 
 class CartScreen extends StatefulWidget {
-  var fromMain;
-
-  CartScreen(this.fromMain);
+  var categId;
+  var categName;
+  CartScreen(this.categId, this.categName);
 
   @override
   State<StatefulWidget> createState() {
-    return CartScreenState(fromMain);
+    // TODO: implement createState
+    return ItemsScreenState(categId,categName);
   }
 }
 
-class CartScreenState extends State<CartScreen> {
-  String Id = '';
-  var fromMain;
+class ItemsScreenState extends State<CartScreen> {
+  var categId;
+  var categName;
   double totalPrice = 0;
+  String Id = '';
 
-  CartScreenState(this.fromMain);
 
-  List<CartModel> cartList = [
-    CartModel(1, "item 1", 25, 3,
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
-    CartModel(2, "item 2", 25, 3,
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
-    CartModel(3, "item 3", 25, 3,
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
-    CartModel(4, "item 4", 25, 3,
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg")
-  ];
+  ItemsScreenState(this.categId, this.categName);
+
+  List<Items> itemsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getItems();
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
     totalPrice = 0;
-    for (int x = 0; x < cartList.length; x++) {
-      totalPrice = totalPrice + (cartList[x].price * cartList[x].count);
+    for (int x = 0; x < itemsList.length; x++) {
+      totalPrice = totalPrice + (itemsList[x].price * itemsList[x].count);
     }
     return Scaffold(
-      appBar: fromMain ? null : AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
+      appBar: AppBar(
+        backgroundColor: Color(0xff5a9ea8),
+        elevation: 15,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(2500),
+                bottomLeft: Radius.circular(50))),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(150),
+          child: Padding(
+              padding: EdgeInsets.fromLTRB(12, 0, 2, 70),
+              child: Row(children: [
+                Text(
+                  'Add To Your Cart👀',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 27,
+                    color: Colors.white,
+                  ),
+                ),
+              ])),
+        ),
+      ),
+
+
+        body: Column(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: fromMain
-                  ? MediaQuery.of(context).size.height - 300
-                  : MediaQuery.of(context).size.height - 300,
+              width: 440,
+              height:440,
               child: ListView.builder(
+                padding: const EdgeInsets.all(20),
                 itemBuilder: (context, index) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
@@ -66,28 +91,29 @@ class CartScreenState extends State<CartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Image.network(
-                              cartList[index].image,
-                              width: 150,
+                              itemsList[index].image,
+                              width:100,
                               height: 100,
                             ),
                             Column(
                               children: [
                                 Text(
-                                  cartList[index].name,
-                                  style: TextStyle(fontSize: 25),
+                                  itemsList[index].name,
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                                Text(cartList[index].price.toString())
+                                Text(itemsList[index].price.toString())
                               ],
                             ),
+
                             Container(
                               alignment: Alignment.bottomCenter,
                               child: TextButton(
                                 onPressed: () {
-                                  if (cartList[index].count != 1) {
-                                    cartList[index].count =
-                                        cartList[index].count - 1;
+                                  if (itemsList[index].count != 1) {
+                                    itemsList[index].count =
+                                        itemsList[index].count - 1;
                                   } else {
-                                    cartList.removeAt(index);
+                                    itemsList.removeAt(index);
                                   }
 
                                   setState(() {});
@@ -97,10 +123,10 @@ class CartScreenState extends State<CartScreen> {
                                         fontSize: 30, color: Colors.black)),
                               ),
                             ),
-                            Text(cartList[index].count.toString()),
+                            Text(itemsList[index].count.toString()),
                             IconButton(
                               onPressed: () {
-                                cartList[index].count = cartList[index].count + 1;
+                                itemsList[index].count = itemsList[index].count + 1;
 
                                 setState(() {});
                               },
@@ -115,7 +141,7 @@ class CartScreenState extends State<CartScreen> {
                     ),
                   );
                 },
-                itemCount: cartList.length,
+                itemCount: itemsList.length,
               ),
             ),
             Container(
@@ -128,7 +154,7 @@ class CartScreenState extends State<CartScreen> {
             ),
           ],
         ),
-      ),
+
       bottomNavigationBar: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 75,
@@ -141,6 +167,23 @@ class CartScreenState extends State<CartScreen> {
   }
 
 
+  Future getItems() async {
+    final response = await http.post(
+        Uri.parse("${ConstantValue.URL}GetItemscat.php"),
+        body: {"Id_categories": categId}
+    );
+
+    if (response.statusCode == 200) {
+
+      var jsonBody = jsonDecode(response.body);
+      var items = jsonBody["items"];
+      for (Map i in items) {
+        itemsList.add(
+            Items(i["Id"], i["Name"], i["HomeImage"], i["Price"], i["Des"],i["Count"]));
+      }
+      setState(() {});
+    }
+  }
   Future addOrder() async {
     await getId();
     Response response = await http.post(
@@ -163,7 +206,6 @@ class CartScreenState extends State<CartScreen> {
       print("error");
     }
   }
-
   Future getId()async{
     final prefs = await SharedPreferences.getInstance();
     Id = prefs.getString("Id")!;

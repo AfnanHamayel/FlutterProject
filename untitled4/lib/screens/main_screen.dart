@@ -5,6 +5,8 @@ import 'package:untitled4/screens/cart_screen.dart';
 import 'package:untitled4/screens/home_screen.dart';
 import 'package:untitled4/screens/more_screen.dart';
 
+import 'ItemsScreen.dart';
+
 
 class MainScreen extends StatefulWidget {
   @override
@@ -63,7 +65,7 @@ class MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: "Cart"),
+              icon: Icon(Icons.add_shopping_cart), label: "Items"),
           BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
         ],
         onTap: onTap,
@@ -77,13 +79,15 @@ class MainScreenState extends State<MainScreen> {
     if (currentIndex == 0) {
       _widget = HomePage();
     } else if (currentIndex == 1) {
-      _widget = CartScreen(true);
+      _widget = ItemsPage();
     } else {
       _widget = MoreScreen();
     }
     setState(() {});
   }
 }
+
+
 
 
 

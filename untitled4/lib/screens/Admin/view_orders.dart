@@ -81,7 +81,7 @@ class _OrdersScreenState extends State<ViewOrders> {
                     SizedBox(
                       width: 10,
                     ),
-                    Text("Status :"),
+                    //Text("Status :"),
                     Text(ordersList[index]["status"]),
                     SizedBox(
                       width: 10,
@@ -102,7 +102,7 @@ class _OrdersScreenState extends State<ViewOrders> {
                                   children: [
                                     Text(
                                         "Change Order Status From Below"),
-                                    SizedBox(height: 15),
+                                    //SizedBox(height: 15),
                                     Row(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.center,

@@ -240,7 +240,7 @@ class _UpdateItemState extends State<UpdateItem> {
       var items = jsonBody["items"];
       for (Map i in items) {
         itemsList.add(
-            Items(i["Id"], i["Name"], i["HomeImage"], i["Price"], i["Des"]));
+            Items(i["Id"], i["Name"], i["HomeImage"], i["Price"], i["Des"],i["Count"]));
       }
       setState(() {});
     }

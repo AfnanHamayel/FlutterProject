@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2022 at 07:47 PM
+-- Generation Time: Oct 03, 2022 at 03:27 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,13 +74,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`Id`, `Name`, `Image`, `Id_statetype`) VALUES
-(1, 'dd', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpC1KHkw7t9kyOTewpsdRkrYnb574HjshQ-g&usqp=CAU', 1),
-(2, 'cat 2', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 2),
-(3, 'cat 3', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 1),
-(7, 'adfsf', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 1),
-(8, 'testqweqw', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 1),
-(9, 'afnan new', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 1),
-(10, 'new category', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 1);
+(1, 'Programming\r\n', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Java_Programming_Cover.jpg', 1),
+(2, 'Design', 'https://image.shutterstock.com/image-vector/modern-vector-abstract-book-cover-260nw-246688564.jpg', 1),
+(3, 'Networking', 'https://media.springernature.com/w153/springer-static/cover/book/978-3-030-65927-1.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -94,6 +90,7 @@ CREATE TABLE `items` (
   `Price` double NOT NULL,
   `HomeImage` text NOT NULL,
   `Des` text NOT NULL,
+  `Count` int(11) NOT NULL,
   `Id_statetype` int(11) NOT NULL,
   `Id_categories` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -102,20 +99,9 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`Id`, `Name`, `Price`, `HomeImage`, `Des`, `Id_statetype`, `Id_categories`) VALUES
-(7, 'afnan item', 20, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'kdsjkhksjhjkfhjkdhfjkhjkhdjkf', 1, 1),
-(8, 'item 2', 50, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'hjkdshjkdhjksdhjkshdjksd', 1, 2),
-(9, 'item 333333', 44, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpC1KHkw7t9kyOTewpsdRkrYnb574HjshQ-g&usqp=CAU', 'good', 1, 1),
-(10, 'item 4', 30, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'KJKSKDJKjdskljkljkljlkjk', 1, 3),
-(11, 'item 5', 80, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'hggjhhhhsnns', 2, 2),
-(12, 'item 6', 70.6, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'jjkjkjkjk', 1, 1),
-(13, '', 24, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'goo', 1, 2),
-(14, 'rito', 22, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'dd', 1, 1),
-(16, 'erwe', 1, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'sdfsf', 1, 1),
-(17, 'afnan item', 55, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'gfdgd', 1, 2),
-(18, 'mango', 66, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 'good', 1, 1),
-(19, 'cat', 44, 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg', 'fds', 1, 1),
-(20, 'dog', 34, 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg', 'fgf', 1, 1);
+INSERT INTO `items` (`Id`, `Name`, `Price`, `HomeImage`, `Des`, `Count`, `Id_statetype`, `Id_categories`) VALUES
+(7, 'item1', 20, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL9gNR3BVOcN4qNCXVzt80D3vS2rEi35vC3flbi97Y&s', 'Item1 Discribtion', 3, 1, 1),
+(8, 'Testing ', 200, 'https://st.depositphotos.com/1741875/1237/i/600/depositphotos_12376816-stock-photo-stack-of-old-books.jpg', 'Testing Describtion ', 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -158,10 +144,15 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`Id`, `Id_users`, `TotalPrice`, `longitude`, `Latu`, `Note`, `status`) VALUES
-(1, 55, 300, 0, 0, '', 'Cancelled'),
-(2, 55, 300, 0, 0, '', 'processing'),
-(3, 55, 300, 0, 0, '', 'Cancelled'),
-(6, 55, 150, 0, 0, '', 'Done');
+(17, 57, 75, 0, 0, '', 'processing'),
+(18, 57, 300, 0, 0, '', 'processing'),
+(19, 57, 150, 0, 0, '', 'processing'),
+(20, 57, 40, 0, 0, '', 'processing'),
+(21, 57, 60, 0, 0, '', 'processing'),
+(22, 57, 60, 0, 0, '', 'processing'),
+(23, 57, 60, 0, 0, '', 'processing'),
+(24, 57, 80, 0, 0, '', 'processing'),
+(25, 57, 100, 0, 0, '', 'processing');
 
 -- --------------------------------------------------------
 
@@ -216,7 +207,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`Id`, `Name`, `Email`, `Phone`, `Password`, `Id_statetype`) VALUES
 (1, 'anas', 'anasshalabi776@gmail.com', '0797922986', 'QWEr123$', 1),
-(55, 'afnan', 'mahmoodfathy66@gmail.com', '243242', '1234567', 1);
+(55, 'afnan', 'mahmoodfathy66@gmail.com', '243242', '1234567', 1),
+(56, 'Afnan', 'afnanhamayel4949@gmail.com', '0568373842', 'Afnan@@1998', 1),
+(57, '', 'a@a.com', '', 'Afnan@19980', 1);
 
 --
 -- Indexes for dumped tables
@@ -307,7 +300,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -325,7 +318,7 @@ ALTER TABLE `itemsimages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `ordersdet`
@@ -343,7 +336,7 @@ ALTER TABLE `statetype`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- Constraints for dumped tables

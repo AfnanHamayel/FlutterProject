@@ -36,8 +36,8 @@ class MoreScreenState extends State<MoreScreen> {
 
                         SizedBox(height:50,),
                         ProfileButtons(),
-                        SizedBox(height:5,),
-                        OrderButtons(),
+                       // SizedBox(height:5,),
+                       // OrderButtons(),
                         SizedBox(height:5,),
                         MapButtons(),
 

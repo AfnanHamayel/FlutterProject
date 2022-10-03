@@ -12,7 +12,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			"Name"=>$row['Name'],
 			"Price"=>(double)$row['Price'],
             "Des"=>$row['Des'],
-            "HomeImage"=>$row['HomeImage'],
+            "HomeImage"=>$row['HomeImage'], 
+            "Count"=>(int)$row['Count'],     
 		));
 	}
 	echo json_encode(array('items'=>$result));

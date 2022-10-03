@@ -47,8 +47,29 @@ class _EditProfileState extends State<EditProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Color(0xff5a9ea8),
-        title: Text("Edit Your Profile"),
+        backgroundColor: Color(0xff5a9ea8),
+        elevation: 15,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(2500),
+                bottomLeft: Radius.circular(50))),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(150),
+          child: Padding(
+              padding: EdgeInsets.fromLTRB(12, 0, 2, 70),
+              child: Row(children: [
+                Text(
+                  'Edit Your Profile👀',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 27,
+                    color: Colors.white,
+                  ),
+                ),
+              ])),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -91,49 +112,40 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(hintText: "Name"),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+
               //emailControoler
               Container(
                 width: 200,
-                height: 150,
+                height: 70,
                 child: TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(hintText: "Email"),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+
               //phoneControoler
               Container(
                 width: 200,
-                height: 150,
+                height: 70,
                 child: TextFormField(
                   controller: phoneController,
                   decoration: InputDecoration(hintText: "phone"),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+
               //passwordControoler
               Container(
                 width: 200,
-                height: 150,
+                height: 100,
                 child: TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(hintText: "password"),
                 ),
               ),
-              SizedBox(
-                height: 35,
-              ),
+
               ElevatedButton(
                   onPressed: () async {
                     await editProfile();
-                    SaveImage(widget.imageFile);
                   },
                   child: Text("Submit"))
 
@@ -142,7 +154,12 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+
+
+
   }
+
+
 
   Future editProfile() async {
     await getId();
@@ -174,11 +191,6 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {});
   }
 
-  void SaveImage (path) async{
-    SharedPreferences saveimage=await SharedPreferences.getInstance();
-    saveimage.setString("imagepath", path) ;
-
-  }
 
 
 
